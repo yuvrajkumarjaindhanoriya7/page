@@ -44,7 +44,6 @@
         h2 { font-size: 1.8rem; margin-bottom: 5px; color: #1e272e; }
         .sub { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; }
 
-        /* Instructions Styling */
         .instructions-box {
             background: rgba(255, 255, 255, 0.4);
             border: 1px solid rgba(0,0,0,0.05);
@@ -90,14 +89,14 @@
     <div class="card">
         <h2>Cygnus Automation Suite</h2>
         <div class="sub">HTML & Extensions Integrated Asset Router</div>
-
+        
         <div class="instructions-box">
             <h3>🚀 Setup & Run Instructions</h3>
             <ol>
                 <li>Click the purple <b>manifest.json</b> and <b>content.js</b> buttons below to download both toolkit files.</li>
                 <li>Create a new empty folder on your computer (e.g., <code>CygnusExtension</code>) and move both downloaded files inside it.</li>
                 <li>Open your browser, go to <code>chrome://extensions/</code>, enable <b>Developer Mode</b> (top-right), and click <b>Load Unpacked</b> (top-left) to select that folder.</li>
-                <li>Enter your live Render App URL below, fill the platform and task commands, and hit execute. The system will auto-automate the target page!</li>
+                <li>Fill the platform and task commands below, and hit execute. The system will auto-automate the target page!</li>
             </ol>
         </div>
 
@@ -108,24 +107,22 @@
                 <button class="download-btn" id="downloadContent">📜 content.js</button>
             </div>
         </div>
-
-        <label style="margin-top: 20px;">Render Live URL Endpoint</label>
-       
-<input type="text" id="backendUrl" value="https://cygnusbackendv2.onrender.com">
-
-
-        <label>Target Web Platform</label>
+        
+        <label style="margin-top: 20px;">Target Web Platform</label>
         <input type="text" id="platformInput" placeholder="e.g., github, google sites">
-
+        
         <label>Action Automation Prompt</label>
         <textarea id="commandInput" placeholder="e.g., click sign in"></textarea>
-
+        
         <button id="sendBtn">Execute Automated Routine</button>
-
+        
         <div class="log" id="statusConsole">> System ready... Download extension files above to initiate setup.</div>
     </div>
 
     <script>
+        // ⚡ YOUR LIVE RENDER LINK LINKED FOR AUTOMATION WORK ONLY
+        const backendBase = "https://cygnusbackendv2.onrender.com";
+
         const manifestData = `{
   "manifest_version": 3,
   "name": "Cygnus Engine Extension",
@@ -187,12 +184,11 @@
         });
 
         document.getElementById('sendBtn').addEventListener('click', async () => {
-            const backendBase = document.getElementById('backendUrl').value.trim();
             const platform = document.getElementById('platformInput').value.trim().toLowerCase();
             const command = document.getElementById('commandInput').value.trim().toLowerCase();
             const consoleLog = document.getElementById('statusConsole');
 
-            if(!backendBase || !platform || !command) {
+            if(!platform || !command) {
                 consoleLog.innerText = "> Configuration missing. Populate all input elements.";
                 return;
             }
@@ -209,7 +205,7 @@
                 const data = await response.json();
 
                 if(data.success) {
-                    consoleLog.innerText = `> Process verified: ${data.message}\n> Streaming redirection layer context...`;
+                    consoleLog.innerText = `> Process verified \n> Streaming redirection layer context...`;
                     window.open(data.redirectUrl, '_blank');
                 }
             } catch (err) {
